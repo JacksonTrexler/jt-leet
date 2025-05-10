@@ -1,0 +1,82 @@
+# # n students with id from 0 to n - 1 participate in a marathon. You are given an array finished_immediately_before where finished_immediately_before[i] = j means that student with id j finished just before student with id i. finished_immediately_before[k] = -1 means that k is the first student.
+# # For the first part of the problem, you can assume there are no ties. In the follow-up, we will handle ties.
+# # The objective of the problem is to list out the student ids in the order in which they finished the marathon.
+# # Example #1:
+# # Input: [1, -1, 0]
+# # Steps:
+# # student with id=1 (j) finished just before student with id=0 (i)
+# # No student (j=-1) finished just before student with id=1 (i) (i.e. Student 1 finished first)
+# # student with id=0 (j) finished just before student with id=2 (i)
+# # Output: [1, 0, 2]
+# # Example #2:
+# # Input: [1, 2, -1, 0] -> {1: 0, 2: 1, -1: 2, 0: 3}
+# # Steps: get 2
+# #
+# # Output: [2, 1, 0, 3]
+
+def reconstruct_marathon_order(finished_immediately_before):
+    """
+    Reconstructs the order of students finishing a marathon based on the given input.
+
+    Args:
+        finished_immediately_before: A list where finished_immediately_before[i] = j
+        means that student with id j finished just before student with id i.
+        finished_immediately_before[k] = -1 means that k is the first student.
+
+    Returns:
+        A list of student IDs in the order they finished the marathon.
+    """
+    #Init new dict pairs
+    pairs = {}
+    answer = []
+    #Set up pairs with placement as key and student id (index of finished_immediately_before) as value
+    for i, val in enumerate(finished_immediately_before):
+        pairs[val]
+    print(pairs)
+    next = pairs[-1]
+    answer.append(next)
+    #Reconstruct array in win order
+    print(next, 'wins! Followed by')
+    while True:
+        next = pairs[next]
+        print(next, 'then')
+        answer.append(next)
+        if not next in pairs:
+            break
+    return answer
+
+from collections import defaultdict
+
+def reconstruct_marathon_order_ties(finished_immediately_before_ties):
+    pairs = defaultdict(list)
+    answer = []
+    for i, val in enumerate(finished_immediately_before_ties):
+        pairs[val].append(i)
+    print(pairs)
+
+    nextList = pairs.pop(-1)
+    answer.append(nextList)
+    
+    print(answer)
+    while True:
+        found = False
+        for next in nextList:
+            if pairs.get(next):
+                nextList = pairs.pop(next)
+                answer.append(nextList)
+                print(nextList)
+                found = True
+                break
+        if found == False:
+            break
+            
+    return answer
+
+def main():
+    finished_immediately_before = [1, 2, -1, 0]
+    finished_immediately_before_ties = [1, 2, -1, 0, 2]
+    result = reconstruct_marathon_order_ties(finished_immediately_before_ties)
+    print(result)
+
+if __name__ == "__main__":
+    main()
